@@ -1,0 +1,137 @@
+:root {
+  --tp-bg-main: #000000; /* Fondo general negro */
+  --tp-bg-sec: #111111;  /* Fondo secundario (tarjetas y secciones) */
+  --tp-green: #4f8c6b;   /* Verde un poco más claro para resaltar en negro */
+  --tp-gold: #c5a059;
+  --tp-light-text: #cccccc; /* Texto secundario gris claro */
+  --tp-white: #ffffff;
+}
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--tp-bg-main);
+  color: var(--tp-white); /* El texto por defecto ahora es blanco */
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Hero Section con foto de Torres del Paine (Corregido) */
+.hero-full {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--tp-white);
+  
+  /* Separamos las propiedades para asegurar que cargue */
+  background-image: linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.9)), 
+                    url('https://dynamic-media-cdn.tripadvisor.com/media/photo-o/2e/88/c2/b5/caption.jpg?w=1200&h=1200&s=1');
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed; /* Efecto Parallax */
+}
+
+.hero-title {
+  font-size: 4.5rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 4px;
+  margin-bottom: 2.5rem;
+  color: var(--tp-light-text);
+}
+
+/* Botones corporativos */
+.btn-gold {
+  background-color: var(--tp-gold);
+  color: #000; /* Letra negra en el botón dorado */
+  padding: 15px 40px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: 2px solid var(--tp-gold);
+  border-radius: 0;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn-gold:hover {
+  background-color: transparent;
+  color: var(--tp-gold);
+}
+
+/* Sección Nosotros */
+.section-about {
+  padding: 100px 0;
+  background-color: var(--tp-bg-main);
+}
+
+/* Tarjetas de Servicios minimalistas para modo oscuro */
+.service-card {
+  border: 1px solid #222; /* Borde sutil */
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
+  transition: transform 0.4s ease;
+  background-color: var(--tp-bg-sec);
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+  border-color: var(--tp-gold);
+}
+
+.service-img-wrap {
+  overflow: hidden;
+  height: 350px;
+}
+
+.service-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.service-card:hover .service-img {
+  transform: scale(1.1);
+}
+
+.service-content {
+  padding: 30px;
+  text-align: center;
+}
+
+.service-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: var(--tp-white);
+}
+
+/* Footer */
+.footer-tp {
+  background-color: var(--tp-bg-sec);
+  color: var(--tp-light-text);
+  padding: 60px 0 20px 0;
+  border-top: 1px solid #222;
+}
+
+.footer-tp a {
+  color: var(--tp-gold);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-tp a:hover {
+  color: var(--tp-white);
+}
