@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'https://wildlife-controlsystem-backend.onrender.com/api';
+
 const Catalogo = () => {
   const navigate = useNavigate();
   const [servicios, setServicios] = useState([]);
@@ -13,11 +15,7 @@ const Catalogo = () => {
   useEffect(() => {
     const fetchServicios = async () => {
       try {
-        const response = await fetch('https://both-smirk-entrust.ngrok-free.dev/api/servicios/', {
-          headers: {
-            'ngrok-skip-browser-warning': 'true'
-          }
-        });
+        const response = await fetch(`${API_BASE}/servicios/`);
 
         if (!response.ok) {
           throw new Error('Server connection failed');

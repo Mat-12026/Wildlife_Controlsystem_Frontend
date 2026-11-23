@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'https://wildlife-controlsystem-backend.onrender.com/api';
+
 const Login = () => {
   const [credenciales, setCredenciales] = useState({ username: '', password: '' });
   const [error, setError] = useState('');
@@ -17,11 +19,10 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const response = await fetch('https://both-smirk-entrust.ngrok-free.dev/api/login/', {
+      const response = await fetch(`${API_BASE}/login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'ngrok-skip-browser-warning': 'true'
         },
         body: JSON.stringify(credenciales)
       });
@@ -29,6 +30,9 @@ const Login = () => {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem('operator_user', data.username);
+        if (data.role) {
+          localStorage.setItem('operator_role', data.role);
+        }
         navigate('/admin/dashboard');
       } else {
         const errorData = await response.json();
@@ -36,7 +40,7 @@ const Login = () => {
       }
     } catch (err) {
       console.error("Login Error:", err);
-      setError('Connection error. Ensure Django backend and Ngrok tunnel are active.');
+      setError('Connection error. Please verify that the backend server is active.');
     } finally {
       setLoading(false);
     }

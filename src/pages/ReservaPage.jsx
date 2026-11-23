@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'https://wildlife-controlsystem-backend.onrender.com/api';
+
 const ReservaPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -65,7 +67,7 @@ const ReservaPage = () => {
     else if (cantidadPax <= 4) costoEstimado = servicio.precios.pax4;
     else costoEstimado = servicio.precios.pax10;
 
-    // 3. Construimos el JSON (Payload) con la estructura exacta del Backend (UML)
+    // 3. Construimos el FormData con la estructura exacta del Backend
     const payload = new FormData();
 
     // Datos de la reserva
@@ -91,12 +93,9 @@ const ReservaPage = () => {
       payload.append('foto_documento', titular.documento);
     }
 
-    // 4. Enviamos los datos a Django
+    // 4. Enviamos los datos a Django en Render
     try {
-      const response = await fetch('https://both-smirk-entrust.ngrok-free.dev/api/clientes/nuevo/', {
-        headers: {
-          'ngrok-skip-browser-warning': 'true'
-        },
+      const response = await fetch(`${API_BASE}/clientes/nuevo/`, {
         method: 'POST',
         body: payload
       });
@@ -112,7 +111,7 @@ const ReservaPage = () => {
       }
     } catch (error) {
       console.error("Error de red:", error);
-      alert('Error de conexión. Asegúrate de que el servidor Django esté corriendo en el puerto 8000.');
+      alert('Error de conexión con el servidor. Intenta nuevamente en unos segundos.');
     }
   };
 
@@ -207,7 +206,6 @@ const ReservaPage = () => {
                       </select>
                     </div>
 
-                    {/* Solo pedimos Teléfono y Email al Titular (Pasajero 1) para no ser redundantes */}
                     {index === 0 && (
                       <>
                         <div className="col-md-6">
@@ -240,7 +238,7 @@ const ReservaPage = () => {
                       />
                     </div>
 
-                                        {/* INPUT PARA SUBIR LA FOTO DEL DOCUMENTO */}
+                    {/* INPUT PARA SUBIR LA FOTO DEL DOCUMENTO */}
                     <div className="col-12 mt-2">
                       <label className="form-label text-white fw-semibold">Foto del Documento</label>
                       <input 
@@ -259,8 +257,8 @@ const ReservaPage = () => {
                       </div>
                     </div>
 
-                  </div> {/* Cierra el row g-3 */}
-                </div> /* Cierra la tarjeta del pasajero */
+                  </div>
+                </div>
               ))}
 
               <button type="button" onClick={agregarPasajero} className="btn btn-outline-light w-100 py-3 rounded-3 border-dashed mt-2" style={{ borderStyle: 'dashed' }}>
@@ -275,7 +273,7 @@ const ReservaPage = () => {
 
                 {/* Tarjeta de Resumen del Servicio */}
                 <div className="card bg-dark border-secondary shadow-lg mb-4">
-                  <img src={servicio.img || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80"} className="card-img-top" alt="Tour" style={{ height: '200px', objectFit: 'cover' }} />
+                  <img src={servicio.imagen || servicio.img || "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=600&q=80"} className="card-img-top" alt="Tour" style={{ height: '200px', objectFit: 'cover' }} />
                   <div className="card-body p-4">
                     <span className="badge mb-2" style={{ backgroundColor: 'var(--tp-green)' }}>{servicio.categoria}</span>
                     <h4 className="card-title text-white fw-bold">{servicio.titulo}</h4>
@@ -286,7 +284,6 @@ const ReservaPage = () => {
                       <span className="text-white">Cantidad de Pasajeros:</span>
                       <span className="fw-bold fs-5 text-white">{pasajeros.length} Pax</span>
                     </div>
-                    {/* Lógica simple de precio según cantidad */}
                     <div className="d-flex justify-content-between align-items-center">
                       <span className="text-white">Precio Estimado (USD):</span>
                       <span className="fw-bold fs-3" style={{ color: 'var(--tp-gold)' }}>
